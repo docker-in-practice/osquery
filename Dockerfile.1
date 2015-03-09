@@ -9,5 +9,5 @@ RUN ./tools/provision.sh
 RUN make 
 RUN make package 
 RUN dpkg -i ./build/linux/osquery-0.0.1-trusty.amd64.deb 
-CMD /usr/bin/osqueryi
+CMD ["/usr/bin/osqueryi"]
 
