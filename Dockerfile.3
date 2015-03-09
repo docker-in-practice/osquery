@@ -1,12 +1,20 @@
 FROM stackbrew/ubuntu:14.04
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y git wget sudo build-essential && \
-    git clone https://github.com/facebook/osquery.git && \
-    cd /osquery && \
-    git checkout 1.0.3 && \
-    ./tools/provision.sh && \
-    make && \
-    make package && \
-    dpkg -i ./build/linux/osquery-0.0.1-trusty.amd64.deb 
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y git
+RUN apt-get install -y wget
+RUN apt-get install -y sudo
+RUN git clone https://github.com/facebook/osquery.git
+WORKDIR /osquery 
+RUN git checkout 1.0.3 
+RUN ./tools/provision.sh 
+RUN make 
+RUN make package 
+RUN dpkg -i ./build/linux/osquery-0.0.1-trusty.amd64.deb 
+RUN SUDO_FORCE_REMOVE=yes apt-get purge -y git wget sudo build-essential
+RUN rm -rf /var/lib/apt/lists/*
+RUN apt-get autoremove -y
+RUN apt-get clean
+RUN cd
+RUN rm -rf /osquery
 CMD ["/usr/bin/osqueryi"]
+
