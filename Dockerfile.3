@@ -1,0 +1,13 @@
+FROM stackbrew/ubuntu:14.04
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git wget sudo build-essential && \
+    git clone https://github.com/facebook/osquery.git && \
+    cd /osquery && \
+    git checkout 1.0.3 && \
+    ./tools/provision.sh && \
+     make && \
+    make package && \
+    dpkg -i ./build/linux/osquery-0.0.1-trusty.amd64.deb 
+CMD /usr/bin/osqueryi
+
