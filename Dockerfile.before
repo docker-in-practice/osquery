@@ -1,0 +1,14 @@
+FROM ubuntu:14.04
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y git wget
+RUN git clone https://github.com/facebook/osquery.git
+WORKDIR /osquery 
+RUN git checkout 1.0.3 
+RUN ./tools/provision.sh 
+RUN make 
+RUN make package 
+RUN dpkg -i ./build/linux/osquery-0.0.1-trusty.amd64.deb 
+#WORKDIR /
+#RUN rm -rf osquery
+CMD /usr/bin/osqueryi
+
