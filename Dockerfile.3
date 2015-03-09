@@ -10,7 +10,7 @@ RUN ./tools/provision.sh
 RUN make 
 RUN make package 
 RUN dpkg -i ./build/linux/osquery-0.0.1-trusty.amd64.deb 
-RUN SUDO_FORCE_REMOVE=yes apt-get purge -y git wget sudo build-essential
+RUN SUDO_FORCE_REMOVE=yes apt-get purge -y git wget sudo
 RUN rm -rf /var/lib/apt/lists/*
 RUN apt-get autoremove -y
 RUN apt-get clean
